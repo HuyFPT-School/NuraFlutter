@@ -1,0 +1,55 @@
+name: mom_baby_milk
+description: NURA - Mom & Baby Milk Store Flutter App
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State Management
+  provider: ^6.1.2
+
+  # HTTP & Networking
+  dio: ^5.7.0
+  dio_cookie_manager: ^3.1.2
+  cookie_jar: ^4.0.8
+
+  # Local Storage
+  shared_preferences: ^2.3.4
+
+  # Maps
+  flutter_map: ^8.3.0
+  latlong2: ^0.9.1
+
+  # Real-time Chat
+  socket_io_client: ^3.0.2
+
+  # UI Components
+  cached_network_image: ^3.4.1
+  shimmer: ^3.0.0
+  badges: ^3.1.2
+  fluttertoast: ^8.2.8
+  flutter_svg: ^2.0.17
+  smooth_page_indicator: ^1.2.0+3
+
+  # WebView (for payment)
+  webview_flutter: ^4.10.0
+
+  # Utilities
+  intl: ^0.19.0
+  url_launcher: ^6.3.1
+
+  # Icons
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
