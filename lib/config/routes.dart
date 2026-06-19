@@ -11,6 +11,8 @@ import '../screens/splash_screen.dart';
 import '../screens/staff/staff_home_screen.dart';
 import '../screens/staff/staff_order_detail_screen.dart';
 import '../screens/admin/admin_home_screen.dart';
+import '../screens/order/my_orders_screen.dart';
+import '../screens/order/order_detail_screen.dart';
 
 class AppRoutes {
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -27,6 +29,8 @@ class AppRoutes {
   static const String checkout = '/checkout';
   static const String paymentWebview = '/payment-webview';
   static const String storeMap = '/store-map';
+  static const String myOrders = '/my-orders';
+  static const String orderDetail = '/order-detail';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -64,6 +68,13 @@ class AppRoutes {
         );
       case storeMap:
         return MaterialPageRoute(builder: (_) => const StoreMapScreen());
+      case myOrders:
+        return MaterialPageRoute(builder: (_) => const MyOrdersScreen());
+      case orderDetail:
+        final orderId = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => OrderDetailScreen(orderId: orderId),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

@@ -205,6 +205,12 @@ class ProfileScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       _buildActionRow(
+                        Icons.receipt_long_outlined,
+                        'Đơn hàng của tôi',
+                        () => Navigator.pushNamed(context, AppRoutes.myOrders),
+                      ),
+                      const Divider(height: 1, indent: 56),
+                      _buildActionRow(
                         Icons.map_outlined,
                         'Bản đồ cửa hàng',
                         () => Navigator.pushNamed(context, AppRoutes.storeMap),

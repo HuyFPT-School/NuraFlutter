@@ -21,8 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _screens = const [
     ProductListScreen(),
     CartScreen(),
-    NotificationScreen(),
     AiChatScreen(),
+    NotificationScreen(),
     ProfileScreen(),
   ];
 
@@ -49,12 +49,12 @@ class _HomeScreenState extends State<HomeScreen> {
               activeIcon: _badgeIcon(Icons.shopping_cart, cart.totalItems),
               label: 'Giỏ hàng',
             ),
+            const BottomNavigationBarItem(icon: Icon(Icons.auto_awesome_outlined), activeIcon: Icon(Icons.auto_awesome), label: 'Tư vấn AI'),
             BottomNavigationBarItem(
               icon: _badgeIcon(Icons.notifications_outlined, notif.unreadCount),
               activeIcon: _badgeIcon(Icons.notifications, notif.unreadCount),
               label: 'Thông báo',
             ),
-            const BottomNavigationBarItem(icon: Icon(Icons.auto_awesome_outlined), activeIcon: Icon(Icons.auto_awesome), label: 'Tư vấn AI'),
             const BottomNavigationBarItem(icon: Icon(Icons.person_outline), activeIcon: Icon(Icons.person), label: 'Cá nhân'),
           ],
         ),

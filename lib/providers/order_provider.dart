@@ -63,4 +63,14 @@ class OrderProvider extends ChangeNotifier {
       return false;
     }
   }
+
+  Future<Map<String, dynamic>?> retryPayment(String id) async {
+    try {
+      final result = await _service.retryPayment(id);
+      await loadMyOrders();
+      return result;
+    } catch (_) {
+      return null;
+    }
+  }
 }
