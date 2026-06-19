@@ -19,6 +19,17 @@ class AuthProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get error => _error;
   bool get isAuthenticated => _token != null;
+  bool get isAdmin => _user?.role == 'Admin';
+  bool get isStaff => _user?.role == 'Staff';
+  bool get isUser => _user?.role == 'User' || _user?.role == null;
+
+  String get homeRouteForRole {
+    switch (_user?.role) {
+      case 'Admin': return '/admin-home';
+      case 'Staff': return '/staff-home';
+      default: return '/home';
+    }
+  }
 
   Future<void> init() async {
     final prefs = await SharedPreferences.getInstance();
@@ -33,7 +44,7 @@ class AuthProvider extends ChangeNotifier {
           _user = UserModel(
             id: _user!.id, email: _user!.email, fullname: _user!.fullname,
             role: role, phone: _user!.phone, address: _user!.address,
-            avatar: _user!.avatar, isVerified: _user!.isVerified,
+            avatar: _user!.avatar, isVerified: true,
           );
         }
       } catch (_) {

@@ -42,7 +42,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     final success = await auth.verifyOtp(widget.email, _otp);
     if (!mounted) return;
     if (success) {
-      Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (_) => false);
+      Navigator.pushNamedAndRemoveUntil(context, auth.homeRouteForRole, (_) => false);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(auth.error ?? 'Xác thực thất bại'), backgroundColor: AppColors.error),

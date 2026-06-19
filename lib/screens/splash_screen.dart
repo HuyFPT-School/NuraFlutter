@@ -29,7 +29,8 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     final auth = context.read<AuthProvider>();
     await auth.init();
     if (!mounted) return;
-    Navigator.pushReplacementNamed(context, auth.isAuthenticated ? AppRoutes.home : AppRoutes.login);
+    final route = auth.isAuthenticated ? auth.homeRouteForRole : AppRoutes.login;
+    Navigator.pushReplacementNamed(context, route);
   }
 
   @override

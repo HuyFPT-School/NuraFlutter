@@ -8,13 +8,21 @@ import '../screens/checkout/checkout_screen.dart';
 import '../screens/checkout/payment_webview_screen.dart';
 import '../screens/map/store_map_screen.dart';
 import '../screens/splash_screen.dart';
+import '../screens/staff/staff_home_screen.dart';
+import '../screens/staff/staff_order_detail_screen.dart';
+import '../screens/admin/admin_home_screen.dart';
 
 class AppRoutes {
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   static const String splash = '/';
   static const String login = '/login';
   static const String register = '/register';
   static const String verifyOtp = '/verify-otp';
   static const String home = '/home';
+  static const String staffHome = '/staff-home';
+  static const String staffOrderDetail = '/staff-order-detail';
+  static const String adminHome = '/admin-home';
   static const String productDetail = '/product-detail';
   static const String checkout = '/checkout';
   static const String paymentWebview = '/payment-webview';
@@ -33,6 +41,15 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => VerifyOtpScreen(email: email));
       case home:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
+      case staffHome:
+        return MaterialPageRoute(builder: (_) => const StaffHomeScreen());
+      case staffOrderDetail:
+        final order = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => StaffOrderDetailScreen(order: order),
+        );
+      case adminHome:
+        return MaterialPageRoute(builder: (_) => const AdminHomeScreen());
       case productDetail:
         final productId = settings.arguments as String;
         return MaterialPageRoute(

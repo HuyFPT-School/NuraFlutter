@@ -54,4 +54,20 @@ class ApiConfig {
 
   // Wishlist
   static const String wishlist = '/api/wishlist';
+
+  // Staff endpoints
+  static const String dashboardStats = '/api/orders/dashboard-stats';
+  static String lowStockProducts(int threshold) => '/api/product?lowStock=true&threshold=$threshold';
+  static const String allOrders = '/api/orders';
+  static String updateOrderStatus(String id) => '/api/orders/$id/status';
+  static String updatePaymentStatus(String id) => '/api/orders/$id/payment-status';
+
+  // Admin endpoints
+  static const String revenueSummary = '/api/analytics/revenue-summary';
+  static const String ordersStats = '/api/analytics/orders-stats';
+  static const String topProducts = '/api/analytics/top-products';
+  static const String allUsers = '/api/users';
+  static String createUserEndpoint = '/api/users';
+  static String updateUserEndpoint(String id) => '/api/users/$id';
+  static String deleteUserEndpoint(String id) => '/api/users/$id';
 }

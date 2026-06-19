@@ -24,7 +24,37 @@ class _PaymentWebviewScreenState extends State<PaymentWebviewScreen> {
         onPageFinished: (_) => setState(() => _isLoading = false),
         onNavigationRequest: (request) {
           final url = request.url.toLowerCase();
-          if (url.contains('payment-result') || url.contains('success')) {
+          
+          if (url.contains('payment-result')) {
+            // 1. For VNPay (redirected by our backend): check status parameter
+            if (url.contains('status=success')) {
+              _showResult(true);
+              return NavigationDecision.prevent;
+            } else if (url.contains('status=error') || url.contains('status=failed')) {
+              _showResult(false);
+              return NavigationDecision.prevent;
+            }
+            
+            // 2. For MoMo: check resultCode parameter
+            if (url.contains('resultcode=0') && !url.contains('resultcode=00') && !url.contains('resultcode=000')) {
+              _showResult(true);
+              return NavigationDecision.prevent;
+            } else if (url.contains('resultcode=')) {
+              _showResult(false);
+              return NavigationDecision.prevent;
+            }
+            
+            // Fallback for general payment result url
+            if (url.contains('success')) {
+              _showResult(true);
+              return NavigationDecision.prevent;
+            } else {
+              _showResult(false);
+              return NavigationDecision.prevent;
+            }
+          }
+          
+          if (url.contains('success')) {
             _showResult(true);
             return NavigationDecision.prevent;
           }

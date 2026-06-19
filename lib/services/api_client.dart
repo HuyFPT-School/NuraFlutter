@@ -3,6 +3,7 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/api_config.dart';
+import '../config/routes.dart';
 
 class ApiClient {
   static final ApiClient _instance = ApiClient._internal();
@@ -36,30 +37,40 @@ class ApiClient {
       },
       onError: (error, handler) async {
         if (error.response?.statusCode == 401) {
-          try {
-            final refreshDio = Dio(BaseOptions(
-              baseUrl: ApiConfig.baseUrl,
-            ));
-            refreshDio.interceptors.add(CookieManager(cookieJar));
-            final refreshResponse = await refreshDio.post(
-              ApiConfig.refreshToken,
-              options: Options(headers: {'Content-Type': 'application/json'}),
-            );
+          final prefs = await SharedPreferences.getInstance();
+          final hasToken = prefs.containsKey(_tokenKey);
 
-            if (refreshResponse.data['accessToken'] != null) {
-              final newToken = refreshResponse.data['accessToken'];
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.setString(_tokenKey, newToken);
+          if (hasToken) {
+            try {
+              final refreshDio = Dio(BaseOptions(
+                baseUrl: ApiConfig.baseUrl,
+              ));
+              refreshDio.interceptors.add(CookieManager(cookieJar));
+              final refreshResponse = await refreshDio.post(
+                ApiConfig.refreshToken,
+                options: Options(headers: {'Content-Type': 'application/json'}),
+              );
 
-              error.requestOptions.headers['Authorization'] = 'Bearer $newToken';
-              final retryResponse = await dio.fetch(error.requestOptions);
-              return handler.resolve(retryResponse);
+              if (refreshResponse.data['accessToken'] != null) {
+                final newToken = refreshResponse.data['accessToken'];
+                await prefs.setString(_tokenKey, newToken);
+
+                error.requestOptions.headers['Authorization'] = 'Bearer $newToken';
+                final retryResponse = await dio.fetch(error.requestOptions);
+                return handler.resolve(retryResponse);
+              }
+            } catch (_) {
+              // Refresh failed
             }
-          } catch (_) {
-            final prefs = await SharedPreferences.getInstance();
-            await prefs.remove(_tokenKey);
-            await prefs.remove('auth_user');
           }
+
+          // Clear credentials and redirect to login
+          await prefs.remove(_tokenKey);
+          await prefs.remove('auth_user');
+          AppRoutes.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+            AppRoutes.login,
+            (route) => false,
+          );
         }
         handler.next(error);
       },

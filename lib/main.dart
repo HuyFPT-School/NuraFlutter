@@ -36,6 +36,7 @@ class NuraApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AiProvider()),
       ],
       child: MaterialApp(
+        navigatorKey: AppRoutes.navigatorKey,
         title: 'NURA - Cửa hàng sữa cho mẹ và bé',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,

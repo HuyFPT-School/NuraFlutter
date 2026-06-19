@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final success = await auth.login(_emailController.text.trim(), _passwordController.text);
     if (!mounted) return;
     if (success) {
-      Navigator.pushReplacementNamed(context, AppRoutes.home);
+      Navigator.pushReplacementNamed(context, auth.homeRouteForRole);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(auth.error ?? 'Đăng nhập thất bại'), backgroundColor: AppColors.error),
