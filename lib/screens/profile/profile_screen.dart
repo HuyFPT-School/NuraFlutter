@@ -17,6 +17,8 @@ class ProfileScreen extends StatelessWidget {
       body: Consumer<AuthProvider>(
         builder: (context, auth, _) {
           final user = auth.user;
+
+          // Khi chưa đăng nhập, hiển thị lời mời đăng nhập/đăng ký thay cho thông tin tài khoản.
           if (user == null) {
             return SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
@@ -70,7 +72,7 @@ class ProfileScreen extends StatelessWidget {
             );
           }
 
-          // Generate initials for avatar placeholder
+          // Tạo chữ cái viết tắt để làm avatar dự phòng khi người dùng chưa có ảnh đại diện.
           final initials = user.fullname.isNotEmpty
               ? user.fullname
                   .trim()
@@ -86,7 +88,7 @@ class ProfileScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Header Profile Info
+                // Khu vực đầu trang: avatar, trạng thái xác thực, tên, email và vai trò.
                 const SizedBox(height: 10),
                 Center(
                   child: Stack(
@@ -167,7 +169,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 32),
 
-                // Account Information Box
+                // Khối thông tin tài khoản lấy trực tiếp từ dữ liệu người dùng hiện tại.
                 _buildSectionHeader('Thông tin tài khoản'),
                 const SizedBox(height: 10),
                 Container(
@@ -197,7 +199,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // Utilities Box
+                // Khối điều hướng nhanh đến các tiện ích liên quan đến tài khoản.
                 _buildSectionHeader('Tiện ích & Ứng dụng'),
                 const SizedBox(height: 10),
                 Container(
@@ -238,7 +240,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 40),
 
-                // Log Out Button
+                // Nút đăng xuất luôn yêu cầu xác nhận để tránh thao tác nhầm.
                 OutlinedButton.icon(
                   onPressed: () => _confirmLogout(context, auth),
                   icon: const Icon(Icons.logout, color: AppColors.error),
@@ -263,6 +265,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  // Tiêu đề nhỏ dùng để phân tách các nhóm nội dung trên trang profile.
   Widget _buildSectionHeader(String title) {
     return Align(
       alignment: Alignment.centerLeft,
@@ -280,6 +283,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  // Dòng hiển thị thông tin chỉ đọc như số điện thoại, địa chỉ hoặc trạng thái tài khoản.
   Widget _buildInfoRow(IconData icon, String label, String value, {Color? trailingColor}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -322,6 +326,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  // Dòng có thể bấm để điều hướng đến màn hình chức năng khác.
   Widget _buildActionRow(IconData icon, String label, VoidCallback onTap) {
     return InkWell(
       onTap: onTap,
@@ -360,6 +365,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  // Hiển thị hộp thoại xác nhận trước khi gọi AuthProvider.logout và quay về màn đăng nhập.
   void _confirmLogout(BuildContext context, AuthProvider auth) {
     showDialog(
       context: context,
