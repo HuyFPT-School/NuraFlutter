@@ -18,6 +18,7 @@ class ApiConfig {
   static String productsByCategory(String id) => '/api/product/category/$id';
   static String productsByBrand(String id) => '/api/product/brand/$id';
   static String addComment(String id) => '/api/product/$id/comments';
+  static const String uploadProductImage = '/api/upload/product-image';
 
   // Categories & Brands
   static const String categories = '/api/category';

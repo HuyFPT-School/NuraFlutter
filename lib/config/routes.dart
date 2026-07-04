@@ -13,6 +13,7 @@ import '../screens/staff/staff_order_detail_screen.dart';
 import '../screens/admin/admin_home_screen.dart';
 import '../screens/order/my_orders_screen.dart';
 import '../screens/order/order_detail_screen.dart';
+import '../screens/staff/staff_create_product_screen.dart';
 
 class AppRoutes {
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -31,6 +32,7 @@ class AppRoutes {
   static const String storeMap = '/store-map';
   static const String myOrders = '/my-orders';
   static const String orderDetail = '/order-detail';
+  static const String staffCreateProduct = '/staff-create-product';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -74,6 +76,10 @@ class AppRoutes {
         final orderId = settings.arguments as String;
         return MaterialPageRoute(
           builder: (_) => OrderDetailScreen(orderId: orderId),
+        );
+      case staffCreateProduct:
+        return MaterialPageRoute(
+          builder: (_) => const StaffCreateProductScreen(),
         );
       default:
         return MaterialPageRoute(

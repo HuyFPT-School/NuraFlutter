@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:dio/dio.dart' as dio;
 import '../config/api_config.dart';
 import '../models/product_model.dart';
 import '../models/category_model.dart';
@@ -51,5 +53,37 @@ class ProductService {
 
   Future<void> addComment(String productId, int rating, String content) async {
     await _api.post(ApiConfig.addComment(productId), data: {'rating': rating, 'content': content});
+  }
+
+  Future<String> uploadProductImage(String filePath) async {
+    final file = File(filePath);
+    final fileName = file.path.split('/').last;
+    final formData = dio.FormData.fromMap({
+      'productImage': await dio.MultipartFile.fromFile(file.path, filename: fileName),
+    });
+
+    final response = await _api.dio.post(
+      ApiConfig.uploadProductImage,
+      data: formData,
+      options: dio.Options(
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      ),
+    );
+
+    if (response.data is Map && response.data['imageUrl'] != null) {
+      return response.data['imageUrl'].toString();
+    } else if (response.data is Map && response.data['data'] != null && response.data['data']['imageUrl'] != null) {
+      return response.data['data']['imageUrl'].toString();
+    }
+    throw Exception('Không nhận được URL ảnh từ máy chủ.');
+  }
+
+  Future<ProductModel> createProduct(Map<String, dynamic> productData) async {
+    final response = await _api.post(ApiConfig.products, data: productData);
+    final data = response.data;
+    final product = data is Map<String, dynamic> && data.containsKey('data') ? data['data'] : data;
+    return ProductModel.fromJson(product);
   }
 }

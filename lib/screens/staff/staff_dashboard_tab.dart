@@ -5,6 +5,8 @@ import '../../services/staff_service.dart';
 import 'staff_home_screen.dart';
 import 'staff_order_detail_screen.dart';
 
+import '../../config/routes.dart';
+
 class StaffDashboardTab extends StatefulWidget {
   const StaffDashboardTab({super.key});
   @override
@@ -56,6 +58,18 @@ class _StaffDashboardTabState extends State<StaffDashboardTab> {
     return Scaffold(
       appBar: AppBar(title: const Text('Dashboard')),
       body: _buildBody(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final created = await Navigator.pushNamed(context, AppRoutes.staffCreateProduct);
+          if (created == true) {
+            _loadData();
+          }
+        },
+        backgroundColor: AppColors.primary,
+        foregroundColor: Colors.white,
+        tooltip: 'Tạo sản phẩm mới',
+        child: const Icon(Icons.add),
+      ),
     );
   }
 
