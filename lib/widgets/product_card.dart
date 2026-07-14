@@ -24,51 +24,53 @@ class ProductCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
-                  child: Hero(
-                    tag: 'product-${product.id}',
-                    child: CachedNetworkImage(
-                      imageUrl: product.firstImage,
-                      height: 150,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                      placeholder: (_, __) => Container(
-                        height: 150, color: AppColors.surface,
-                        child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
-                      ),
-                      errorWidget: (_, __, ___) => Container(
-                        height: 150, color: AppColors.surface,
-                        child: const Icon(Icons.image_not_supported, color: AppColors.textSecondary),
+            Expanded(
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
+                      child: Hero(
+                        tag: 'product-${product.id}',
+                        child: CachedNetworkImage(
+                          imageUrl: product.firstImage,
+                          fit: BoxFit.cover,
+                          placeholder: (_, __) => Container(
+                            color: AppColors.surface,
+                            child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                          ),
+                          errorWidget: (_, __, ___) => Container(
+                            color: AppColors.surface,
+                            child: const Icon(Icons.image_not_supported, color: AppColors.textSecondary),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                if (product.canPreOrder)
-                  Positioned(
-                    top: 8, left: 8,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: AppColors.warning, borderRadius: BorderRadius.circular(6),
+                  if (product.canPreOrder)
+                    Positioned(
+                      top: 8, left: 8,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppColors.warning, borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: const Text('Pre-Order', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600)),
                       ),
-                      child: const Text('Pre-Order', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600)),
                     ),
-                  ),
-                if (product.isOutOfStock && !product.allowPreOrder)
-                  Positioned(
-                    top: 8, left: 8,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.grey, borderRadius: BorderRadius.circular(6),
+                  if (product.isOutOfStock && !product.allowPreOrder)
+                    Positioned(
+                      top: 8, left: 8,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.grey, borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: const Text('Hết hàng', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600)),
                       ),
-                      child: const Text('Hết hàng', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600)),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(10),
