@@ -294,11 +294,11 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Navigate to products tab (index 0)
-                    final homeState = context.findAncestorStateOfType<State>();
-                    if (homeState != null && homeState.mounted) {
-                      // Just switch to products tab
-                    }
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      AppRoutes.home,
+                      (_) => false,
+                    );
                   },
                   icon: const Icon(Icons.shopping_bag_outlined, size: 18),
                   label: const Text('Bắt đầu mua sắm'),
